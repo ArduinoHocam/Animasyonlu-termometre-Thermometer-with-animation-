@@ -1,0 +1,180 @@
+#include <LiquidCrystal.h> //lcd ekran kütüphanesi
+#include <dht11.h> // dht11 kütüphanesini ekliyoruz.
+#define DHT11PIN 8 // DHT11PIN olarak Dijital 8"yi belirliyoruz.
+
+
+byte isaret1[8] = { 0b01110,
+                    0b11011,
+                    0b10001,
+                    0b10001,
+                    0b10001,
+                    0b10001,
+                    0b10001,
+                    0b11111
+                  };
+byte isaret2[8] = { 0b01110,
+                    0b11011,
+                    0b10001,
+                    0b10001,
+                    0b10001,
+                    0b10001,
+                    0b11111,
+                    0b11111
+                  };
+byte isaret3[8] = { 0b01110,
+                    0b11011,
+                    0b10001,
+                    0b10001,
+                    0b10001,
+                    0b11111,
+                    0b11111,
+                    0b11111
+                  };
+byte isaret4[8] = {0b01110,
+                   0b11011,
+                   0b10001,
+                   0b10001,
+                   0b11111,
+                   0b11111,
+                   0b11111,
+                   0b11111
+                  };
+byte isaret5[8] = {0b01110,
+                   0b11011,
+                   0b10001,
+                   0b11111,
+                   0b11111,
+                   0b11111,
+                   0b11111,
+                   0b11111
+                  };
+byte isaret6[8] = { 0b01110,
+                    0b11011,
+                    0b11111,
+                    0b11111,
+                    0b11111,
+                    0b11111,
+                    0b11111,
+                    0b11111
+                  };
+byte isaret7[8] = { 0b01110,
+                    0b11111,
+                    0b11111,
+                    0b11111,
+                    0b11111,
+                    0b11111,
+                    0b11111,
+                    0b11111
+                  };
+
+byte isaret8[8] = {
+  0b11000,
+  0b11000,
+  0b00000,
+  0b01111,
+  0b01000,
+  0b01000,
+  0b01000,
+  0b01111
+};
+
+
+dht11 DHT11; //dht11 e isim verdik 
+
+// LCD için kullanılacak çıkışlar belirlendi. LiquidCrystal(rs, enable, d4, d5, d6, d7)  (ayrıca vss:GND ,VDD:+5V,VO:POT ORTA BACAK,RW:GND,A:+5V,K:GND)
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+void setup()
+{
+
+  lcd.createChar(1, isaret1);   //ÖZEL KARAKTERLERİMİZİ OLUŞTURDUK VE NUMARA VERDİK.
+  lcd.createChar(2, isaret2);
+  lcd.createChar(3, isaret3);
+  lcd.createChar(4, isaret4);
+  lcd.createChar(5, isaret5);
+  lcd.createChar(6, isaret6);
+  lcd.createChar(7, isaret7);
+  lcd.createChar(8, isaret8);
+
+
+
+  lcd.begin(16, 2); // LCD ekran arayüzü başlatır ve ekran boyutları (genişlik ve yükseklik) belirtir
+
+
+  lcd.clear();  //EKRANI SİLMEK İÇİN KULLANILIR
+  lcd.setCursor(0, 0); //YAZIMIZIN KOORDİNATI 
+  lcd.write(byte(1));  lcd.print(" ARDUINO HOCAM"); lcd.setCursor(0, 1); lcd.print("PROJE YUKLENIYOR");
+  delay(500);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.write(byte(2));  lcd.print(" ARDUINO HOCAM"); lcd.setCursor(0, 1); lcd.print("PROJE YUKLENIYOR");
+  delay(500);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.write(byte(3));  lcd.print(" ARDUINO HOCAM"); lcd.setCursor(0, 1); lcd.print("PROJE YUKLENIYOR");
+  delay(500);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.write(byte(4));  lcd.print(" ARDUINO HOCAM"); lcd.setCursor(0, 1); lcd.print("PROJE YUKLENIYOR");
+  delay(500);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.write(byte(5));  lcd.print(" ARDUINO HOCAM"); lcd.setCursor(0, 1); lcd.print("PROJE YUKLENIYOR");
+  delay(500);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.write(byte(6));  lcd.print(" ARDUINO HOCAM"); lcd.setCursor(0, 1); lcd.print("PROJE YUKLENIYOR");
+  delay(500);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.write(byte(7));  lcd.print(" ARDUINO HOCAM"); lcd.setCursor(0, 1); lcd.print("PROJE YUKLENIYOR");
+  delay(500);
+  lcd.setCursor(0, 0);
+  lcd.write(byte(8));  lcd.print(" ARDUINO HOCAM"); lcd.setCursor(0, 1); lcd.print("PROJE YUKLENIYOR");
+
+
+  lcd.clear(); 
+  
+  for (int i = 0; i < 6; i++) { //YAZIMIZI KAYDIRMAK İÇİN FOR DÖNGÜSÜ KULLANDIK
+    lcd.clear();
+    lcd.setCursor(i, 0);
+    lcd.print("ANIMASYONLU");
+
+
+    lcd.setCursor(i, 1);
+    lcd.print("TERMOMETRE");
+    delay(500);
+  }
+
+
+
+
+}
+
+
+void loop() {
+  int X = DHT11.read(DHT11PIN);    // DHT11 DEN VERİ OKUDUK VE X' E ATADIK
+  int sicaklik = DHT11.temperature; 
+
+
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("SICAKLIK: "); lcd.print(sicaklik);  lcd.write(byte(8));
+
+  
+  lcd.setCursor(0, 1);
+  lcd.print("NEM: %"); lcd.print(DHT11.humidity, 8);
+
+
+  delay(3000);
+
+  lcd.clear();
+  lcd.setCursor(3, 0);
+  lcd.print("YOUTUBE");
+  lcd.setCursor(2, 1);
+  lcd.print("ARDUNO HOCAM");
+  delay(2000);
+
+
+
+}
